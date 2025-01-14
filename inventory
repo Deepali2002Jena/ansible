@@ -1,0 +1,14 @@
+servera
+serverb
+
+[dev]
+servera
+
+[ops]
+serverb
+
+[group:children]
+dev
+ops
+
+
