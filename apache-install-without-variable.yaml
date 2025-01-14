@@ -1,0 +1,35 @@
+---
+- name: add apache server in serverb
+  hosts: serverb
+  tasks:
+    - name: install httpd and firewalld in serverb
+      ansible.builtin.dnf:
+        name: 
+          - httpd
+          - firewalld
+        state: present
+
+    - name: add content in index.html file
+      ansible.builtin.copy:
+        content: "Hello welcome to new yml file\n"
+        dest: /var/www/html/index.html
+
+    - name: start the httpd in serverb
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: start the firewalld in serverb
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: add the httpd in serverb
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+
