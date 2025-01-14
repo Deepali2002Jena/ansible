@@ -1,0 +1,17 @@
+---
+- name: add a user in serverb
+  hosts: serverb
+  tasks:
+    - name: add the user sameer in serverb
+      ansible.builtin.user:
+        name: sameer
+        state: present
+        uid: 1040
+        shell: /sbin/nologin
+
+    - name: add the user saqib in serverb
+      ansible.builtin.user:
+        name: saqib
+        state: present
+        uid: 2040
+        shell: /bin/bash
