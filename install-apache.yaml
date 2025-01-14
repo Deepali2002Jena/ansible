@@ -1,0 +1,39 @@
+---
+- name: add apache server in serverb
+  hosts: serverb
+  vars:
+    - apache_pkg: httpd
+    - web_pkg: firewalld
+    - apache_ser: httpd
+    - web_ser: firewalld
+  tasks:
+    - name: install {{apache_pkg}} and {{web_pkg}} in serverb
+      ansible.builtin.dnf:
+        name: 
+          - "{{apache_pkg}}"
+          - "{{web_pkg}}"
+        state: present
+
+    - name: add content in index.html file
+      ansible.builtin.copy:
+        content: "Hello welcome to new yml file\n"
+        dest: /var/www/html/index.html
+
+    - name: start the {{apache_pkg}} serverb
+      ansible.builtin.service:
+        name: "{{apache_ser}}"
+        state: started
+        enabled: true
+
+    - name: start the {{ web_pkg}} in serverb
+      ansible.builtin.service:
+        name: "{{web_ser}}"
+        state: started
+        enabled: true
+
+    - name: add the httpd in serverb
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
