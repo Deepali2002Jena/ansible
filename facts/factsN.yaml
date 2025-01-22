@@ -1,0 +1,26 @@
+---
+- name: custom fact
+  hosts: serverb
+  tasks:
+    - name: custom fact allocate in serverb
+      ansible.builtin.file:
+        state: directory
+        recurse: yes
+        path: /etc/ansible/facts.d
+
+    - name: copy the custom file to the desired location
+      ansible.builtin.copy:
+        src: custom.fact
+        dest: /etc/ansible/facts.d
+
+    - name: install the httpd service thorugh the custom facts
+      ansible.builtin.user:
+        name: "{{ansible_facts.ansible_local.custom.general.package}}"
+        state: present
+
+    - name: start the httpd service
+      ansible.builtin.service:
+        name: "{{ansible_facts.ansible_local.custom.general.service}}"
+        state: "{{ansible_facts.ansible_local.custom.general.state}}"
+        enabled: "{{ansible_facts.ansible_local.custom.general.enabled}}"
+
