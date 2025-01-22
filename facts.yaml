@@ -1,0 +1,11 @@
+---
+- name: show the ansible facts
+  hosts: serverb
+  tasks:
+    - name: show the ansible facts
+      ansible.builtin.debug:
+        msg: 
+          The hostname is {{ansible_facts.hostname}}
+          The full name of the serverb is {{ansible_facts.fqdn}}
+          The ip address of the serverb is {{ansible_facts.default_ipv4.address}}
+          The kernel version is {{ansible_facts.kernel}}
