@@ -1,0 +1,14 @@
+---
+- name: install httpd and firewalld through the loop in the remote serverb
+  hosts: serverb
+  vars:
+    web_svc: httpd
+    firewall_svc: firewalld
+  tasks:
+    - name: install the httpd and firewalld service
+      ansible.builtin.dnf:
+        name: "{{item}}"
+        state: present
+      loop:
+        - "{{web_svc}}"
+        - "{{firewall_svc}}"
