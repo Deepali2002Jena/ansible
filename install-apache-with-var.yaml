@@ -1,0 +1,39 @@
+---
+- name: install apache server
+  hosts: serverb
+  vars:
+    - web_pkg: httpd
+    - web_svc: httpd
+    - firewall_pkg: firewalld
+    - firewall_svc: firewalld
+  tasks:
+    - name: install the {{web_pkg}} and {{firewall_pkg}} service in serverb
+      ansible.builtin.dnf:
+        name:
+          - "{{web_pkg}}"
+          - "{{firewall_pkg}}"
+        state: present
+
+    - name: start the {{web_pkg}} service 
+      ansible.builtin.service:
+        name: "{{web_pkg}}"
+        state: started
+        enabled: true
+
+    - name: start the {{firewall_pkg}} service
+      ansible.builtin.service:
+        name: "{{firewall_svc}}"
+        state: started
+        enabled: true
+
+    - name: add the http in {{firewall_svc}} service
+      ansible.posix.firewalld:
+        service: http
+        immediate: yes
+        permanent: true
+        state: enabled
+
+    - name: add a content in index.html file
+      ansible.builtin.copy:
+        content: "WELCOME TO REDHAT\n"
+        dest: /var/www/html/index.html
