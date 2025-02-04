@@ -1,0 +1,22 @@
+---
+- name: create groupd and add the user in the existed group in the remote server
+  hosts: serverb
+  tasks:
+    - name: create two groups in remote server through the loop
+      ansible.builtin.group:
+        name: "{{item}}"
+        state: present
+      loop:
+        - sales
+        - mkt
+
+    - name: create two user and add it in the existing group
+      ansible.builtin.user:
+        name: "{{item['name']}}"
+        groups: "{{item['groups']}}"
+        state: present
+      loop:
+        - name: Dillip
+          groups: sales
+        - name: swagatika
+          groups: mkt
