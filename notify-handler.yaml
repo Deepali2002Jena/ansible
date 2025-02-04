@@ -1,0 +1,19 @@
+---
+- name: MariaDB server will install in remote server
+  hosts: serverb
+  vars:
+    db_pkg1: mariadb
+    db_pkg2: python3-PyMySQL
+  tasks:
+    - name: "{{db_pkg1}} packages are installed"
+      ansible.builtin.dnf:
+        name: "{{db_pkg1}}"
+        state: present
+      notify:
+        - "{{db_pkg2}} packages are installed"
+  handlers:
+    - name: "{{db_pkg2}} packages are installed"
+      ansible.builtin.dnf:
+        name: "{{db_pkg2}}"
+        state: present
+
