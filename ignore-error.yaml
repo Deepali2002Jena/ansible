@@ -1,0 +1,17 @@
+---
+- name: ignore the error
+  hosts: serverb
+  vars:
+    my_package1: http
+    my_package2: mariadb-server
+  tasks:
+    - name: install the {{my_package1}}
+      ansible.builtin.dnf:
+        name: "{{my_package1}}"
+        state: started
+      ignore_errors: yes
+
+    - name: install the {{my_package2}}
+      ansible.builtin.dnf:
+        name: "{{my_package2}}"
+        state: present
