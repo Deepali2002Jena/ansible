@@ -8,6 +8,7 @@
         state: present
         uid: 1040
         shell: /sbin/nologin
+        comment: sameer kashmiri
 
     - name: add the user saqib in serverb
       ansible.builtin.user:
