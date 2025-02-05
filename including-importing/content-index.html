@@ -1,0 +1,6 @@
+---
+- name: create a index.html
+  ansible.builtin.copy:
+    content: "Welcome to the serverb and is a redhat distribution managed device\n"
+    dest: "{{file}}"
+~                    

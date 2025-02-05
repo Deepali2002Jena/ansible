@@ -1,0 +1,18 @@
+---
+- name: install the {{firewall_pkg}} package
+  ansible.builtin.dnf:
+    name: "{{firewall_pkg}}"
+    state: latest
+- name: start the {{firewall_svc}} service
+  ansible.builtin.service:
+    name: "{{firewall_svc}}"
+    state: started
+    enabled: true
+- name: add the http in the firewalld
+  ansible.posix.firewalld:
+    service: "{{item}}"
+    immediate: yes
+    permanent: true
+    state: enabled
+  loop: "{{rule}}"
+

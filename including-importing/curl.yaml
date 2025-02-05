@@ -1,0 +1,6 @@
+---
+- name: test web server
+  ansible.builtin.uri:
+    url: http://serverb
+    status_code: 200
+

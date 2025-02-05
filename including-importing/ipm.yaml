@@ -1,0 +1,27 @@
+---
+- name: configure web server through including and importing parameter
+  hosts: serverb
+  tasks:
+    - name: Include the environment task file and set the variables
+      include_tasks: tasks/install-httpd.yaml
+      vars:
+        package: httpd
+        service: httpd
+
+    - name: import the firewall task file and set the variables
+      import_tasks: tasks/install-firewalld.yaml
+      vars:
+        firewall_pkg: firewalld
+        firewall_svc: firewalld
+        rule:
+          - http
+          
+    - name: import the index.html file
+      import_tasks: tasks/content-index.yaml
+      vars:
+        file: /var/www/html/index.html
+
+    - name: import the curl.yaml file
+      import_tasks: tasks/curl.yaml
+
+
