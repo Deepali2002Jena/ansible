@@ -1,0 +1,11 @@
+---
+- name: using the file module to ensure the selinux file context will be correct
+  hosts: serverb
+  tasks:
+    - name: SElinux file context is set to be difault
+      ansible.builtin.file:
+        path: /home/sameer/task.txt
+        seuser: _default
+        setype: _default
+        serole: _default
+        selevel: _default

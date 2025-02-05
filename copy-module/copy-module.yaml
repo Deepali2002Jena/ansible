@@ -1,0 +1,14 @@
+#copy a file  from the local machine or remote machine to a location on a managed hosts. Similar to the file module, the copy module can also set file attributes including selinux context.
+---
+- name: using the copy module
+  hosts: serverb
+  tasks:
+    - name: copy a file to managed hosts and set attributes
+      ansible.builtin.copy:
+        src: task.txt
+        dest: /home/sameer/task.txt
+        owner: student
+        group: student
+        mode: u+rw,g-wx,o-rwx
+        setype: samba_share_t
+
