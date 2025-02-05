@@ -1,0 +1,10 @@
+#Fetch module works like the copy module but in reverse. THis module is used for fetching files from remote machines to the control node and storing them in a file, organized by hostname.
+
+---
+- name: use the fetch module to retrieve secure log files
+  hosts: serverb
+  tasks:
+    - name: fetch /var/log/secure log files from manged hosts
+      ansible.builtin.fetch:
+        src: /var/log/secure
+        dest: secure_backup
