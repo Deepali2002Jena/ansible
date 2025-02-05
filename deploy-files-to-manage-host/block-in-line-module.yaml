@@ -1,0 +1,12 @@
+---
+- name: add the text to an existing file
+  hosts: serverb
+  tasks:
+    - name: add a single line of text to a file
+      ansible.builtin.blockinfile:
+        path: /home/sameer/task.txt
+        block: |
+          This block of text consist of two lines
+          They have been added by the blockinfile module
+        state: present
+

@@ -1,0 +1,15 @@
+#Retrieve status information for a file, similar to the linux stat command
+
+---
+- name: stat of the file
+  hosts: servera
+  tasks:
+    - name: stat of the data.txt file
+      ansible.builtin.stat:
+        path: /home/student/data.txt
+      register: __file_user
+
+    - name: debug the register
+      ansible.builtin.debug:
+        var: __file_user
+

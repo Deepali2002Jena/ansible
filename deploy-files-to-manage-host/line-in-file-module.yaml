@@ -1,0 +1,12 @@
+#Ensure that a particular line is in a file, or replace an existing line using a back-reference regular expression. Thos module is primarily useful when you want to change a single line in a file.
+
+---
+- name: add the text to an existing file
+  hosts: serverb
+  tasks:
+    - name: add a single line of text to a file
+      ansible.builtin.lineinfile:
+        path: /home/sameer/task.txt
+        line: This line was added by the lineinfile module
+        state: present
+
