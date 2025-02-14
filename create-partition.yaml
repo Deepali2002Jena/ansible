@@ -1,0 +1,49 @@
+---
+- name: create a partition
+  hosts: serverb
+  tasks:
+    - name: Hard disk partition
+      block:
+        - name: create a parition of 1500 MiB on /dev/sdb
+          community.general.parted:
+            device: /dev/sdb
+            number: 1
+            state: present
+            part_end: 1500MiB
+        - name: provide the file system
+          community.general.filesystem:
+            fstype: ext4
+            dev: /dev/sdb1
+        - name: create a mount point
+          ansible.builtin.file:
+            path: /data
+            state: directory
+        - name: mount /dev/sdb on /data
+          ansible.posix.mount:
+            path: /data
+            src: /dev/sdb1
+            fstype: ext4
+            opts: noatime
+            state: mounted
+      rescue:
+        - name: create a parition of 2 GiB on /dev/sdb
+          community.general.parted:
+            device: /dev/sdb
+            number: 1
+            state: present
+            part_end: 2GiB
+        - name: provide the file system
+          community.general.filesystem:
+            fstype: ext4
+            dev: /dev/sdb1
+        - name: create a mount point
+          ansible.builtin.file:
+            path: /data
+            state: directory
+        - name: mount /dev/sdb on /data
+          ansible.posix.mount:
+            path: /data
+            src: /dev/sdb1
+            fstype: ext4
+            opts: noatime
+            state: mounted
