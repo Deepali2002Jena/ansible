@@ -1,0 +1,38 @@
+  ---
+- name: create a logical volume
+  hosts: serverb
+  tasks:
+    - name: Create a new primary partition with a size of 1GiB
+      community.general.parted:
+        device: /dev/sdb
+        number: 1
+        state: present
+        part_end: 1GiB
+    - name: Create a volume group
+      community.general.lvg:
+        vg: datastore
+        pvs: /dev/sdb1
+
+    - name: Create a logical volume of 600m
+      community.general.lvol:
+        vg: datastore
+        lv: database
+        size: 600M
+
+    - name: Create a ext4 filesystem
+      community.general.filesystem:
+        fstype: ext4
+        dev: /dev/datastore/database
+
+    - name: create a file for the mount point
+      ansible.builtin.file:
+        path: /data
+        state: directory
+
+    - name: Mount up device
+      ansible.posix.mount:
+        path: /data
+        src: /dev/datastore/database
+        fstype: ext4
+        opts: noatime
+        state: mounted
