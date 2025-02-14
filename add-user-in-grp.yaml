@@ -1,0 +1,21 @@
+---
+- name: create a user and add the user in the existed group
+  hosts: serverb
+  tasks:
+    - name: Ensure group admins exists with correct gid
+      ansible.builtin.group:
+        name: admins
+        state: present
+        gid: 5000
+    - name: Ensure group developers exists with correct gid
+      ansible.builtin.group:
+        name: developers
+        state: present
+        gid: 6000
+
+    - name: Add the user 'james' with a bash shell, appending the group admins and developers
+      ansible.builtin.user:
+        name: james
+        shell: /bin/bash
+        groups: admins,developers
+        append: yes
