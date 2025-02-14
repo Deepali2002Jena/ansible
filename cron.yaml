@@ -1,0 +1,14 @@
+---
+- name: run the cron job in the remote serverb
+  hosts: serverb
+  tasks:
+    - name: create a cron job
+      ansible.builtin.cron:
+        name: "Backup Job"
+        job: "date >> /root/date.txt" 
+        minute: "*/2"
+        hour: "*" 
+        day: "*" 
+        month: "*"
+        weekday: "*"
+        state: present
