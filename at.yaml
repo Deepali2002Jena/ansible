@@ -1,0 +1,10 @@
+# Quick one time scheduling is done with the ansible.posix.at module
+---
+- name: add a user to the remote server
+  hosts: serverb
+  tasks:
+    - name: schedule a job to add a user in the remote server
+      ansible.posix.at:
+        command: useradd -u 2000 -s /sbin/nologin deepak
+        count: 2
+        units: minutes
